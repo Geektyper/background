@@ -16,10 +16,10 @@ def start(update: Update, context: CallbackContext) -> None:
 
     buttons = [
         [
-            InlineKeyboardButton("𝖠𝖻𝗈𝗎𝗍", callback_data='about'),
-            InlineKeyboardButton("𝖧𝖾𝗅𝗉", callback_data='help')
+            InlineKeyboardButton("About", callback_data='about'),
+            InlineKeyboardButton("Help", callback_data='help')
         ],
-        [InlineKeyboardButton("𝖢𝗅𝗈𝗌𝖾", callback_data='close')],
+        [InlineKeyboardButton("Close", callback_data='close')],
     ]
 
     keyboard = InlineKeyboardMarkup(buttons)
@@ -51,16 +51,15 @@ def button_click(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     query.answer()
     if query.data == 'about':
-        query.edit_message_text(text="""𝖡𝗈𝗍 : Backround Remover Bot\n𝖣𝖾𝗏𝖾𝗅𝗈𝗉𝖾𝗋 : [GitHub](https://github.com/Geektyper) | [Telegram](https://telegram.me/NotRealGeek)\n𝖲𝗈𝗎𝗋𝖼𝖾 : [Click here](https://github.com/Geektyper/background)\n𝖫𝖺𝗇𝗀𝗎𝖺𝗀𝖾 : [Python 3](https://python.org/)\n𝖫𝗂𝖻 : [Pyrogram](https://pyrogram.org/)""", parse_mode="Markdown")
+        query.edit_message_text(text="""<b>Bot:</b> Background Remover Bot\n<b>Developer:</b> <a href="https://github.com/Geektyper">GitHub</a> | <a href="https://telegram.me/NotRealGeek">Telegram</a>\n<b>Source:</b> <a href="https://github.com/Geektyper/background">GitHub</a>\n<b>Language:</b> Python 3\n<b>Library:</b> Pyrogram""", parse_mode="HTML")
     elif query.data == 'close':
-        query.edit_message_text(text="𝖢𝗅𝗈𝗌𝖾𝖽")
+        query.edit_message_text(text="Closed")
     elif query.data == 'help':
         buttons = [
             [InlineKeyboardButton("Close", callback_data='close_help')],
         ]
         keyboard = InlineKeyboardMarkup(buttons)
-        query.edit_message_text(text="""Just send me a photo\nΔ I will download it\nΔ I will send the photo without background\nΔ Made by [Geektyper](t.me/notrealgeek).""",
-                                reply_markup=keyboard, parse_mode="Markdown")
+        query.edit_message_text(text="Just send me a photo\n- I will download it\n- I will send the photo without background\nMade by <a href=\"https://t.me/notrealgeek\">Geektyper</a>.", reply_markup=keyboard, parse_mode="HTML")
 
 def main() -> None:
     updater = Updater(token=API_TOKEN, use_context=True)
