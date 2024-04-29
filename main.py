@@ -51,28 +51,15 @@ def button_click(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     query.answer()
     if query.data == 'about':
-        about_text = """
-        <b>Bot:</b> Background Remover Bot
-        <b>Developer:</b> [GitHub](https://github.com/Geektyper) | [Telegram](https://telegram.me/NotRealGeek)
-        <b>Source:</b> [GitHub](https://github.com/Geektyper/background)
-        <b>Language:</b> Python 3
-        <b>Library:</b> Pyrogram
-        """
-        query.edit_message_text(text=about_text, parse_mode="HTML")
+        query.edit_message_text(text="""<b>Bot:</b> Background Remover Bot\n<b>Developer:</b> <a href="https://github.com/Geektyper">GitHub</a> | <a href="https://telegram.me/NotRealGeek">Telegram</a>\n<b>Source:</b> <a href="https://github.com/Geektyper/background">GitHub</a>\n<b>Language:</b> Python 3\n<b>Library:</b> Pyrogram""", parse_mode="HTML")
     elif query.data == 'close':
         query.edit_message_text(text="Closed")
     elif query.data == 'help':
-        help_text = """
-        Just send me a photo
-        - I will download it
-        - I will send the photo without background
-        Made by [Geektyper](https://t.me/notrealgeek).
-        """
         buttons = [
             [InlineKeyboardButton("Close", callback_data='close_help')],
         ]
         keyboard = InlineKeyboardMarkup(buttons)
-        query.edit_message_text(text=help_text, reply_markup=keyboard, parse_mode="MarkdownV2")
+        query.edit_message_text(text="Just send me a photo\n- I will download it\n- I will send the photo without background\nMade by <a href=\"https://t.me/notrealgeek\">Geektyper</a>.", reply_markup=keyboard, parse_mode="HTML")
 
 def main() -> None:
     updater = Updater(token=API_TOKEN, use_context=True)
