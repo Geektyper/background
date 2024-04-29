@@ -1,3 +1,13 @@
 python-telegram-bot
 requests
+motor
+aiohttp
+pymongo 
+apscheduler==3.6.3
+pyrogram
+tgcrypto 
+python-dotenv
+cachetools
+aiogram
 ffmpeg-python
+pyrate-limiter==3.1.0
