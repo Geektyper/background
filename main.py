@@ -13,6 +13,21 @@ Geek = Client(
     api_hash=os.environ.get("API_HASH"),
 )
 
+
+async def synchronize_time():
+    await Geek.start()
+    await Geek.get_me()
+    await Geek.stop()
+
+
+async def main():
+    await synchronize_time()
+
+
+if __name__ == "__main__":
+    Geek.loop.run_until_complete(main())
+
+
 START_TEXT = """
 Hello {}, I am an image background remover bot. Send me a photo, and I will send the photo without background.
 
@@ -27,7 +42,7 @@ Made by [Bot support](t.me/BotsupportXD).
 """
 ABOUT_TEXT = """
 - **Bot:** `Background Remover Bot`
-- **Creator:** [Divyash](https://t.me/Notrealgeek)
+- **Creator:** [Pratham](https://t.me/Notrealgeek)
 - **Channel:** [Bot Updates](https://t.me/Botupdatexd)
 - **Support:** [Bot support](https://t.me/BotsupportXD)
 """
