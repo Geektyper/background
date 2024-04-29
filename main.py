@@ -6,8 +6,6 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 
 API_TOKEN = os.getenv("TOKEN")
 REMOVE_BG_API_KEY = os.getenv("RMBG")
-API_ID = 'your_api_id'
-API_HASH = 'your_api_hash'
 
 def start(update: Update, context: CallbackContext) -> None:
     user_name = update.message.from_user.first_name
@@ -24,6 +22,9 @@ def start(update: Update, context: CallbackContext) -> None:
     ]
 
     keyboard = InlineKeyboardMarkup(buttons)
+
+    help_button = InlineKeyboardButton("𝖧𝖾𝗅𝗉", callback_data='help')
+    keyboard.row(help_button)  # Add the help button in a new row
 
     update.message.reply_text(message_text, reply_markup=keyboard)
 
@@ -53,12 +54,24 @@ def button_click(update: Update, context: CallbackContext) -> None:
     query.answer()
     if query.data == 'about':
         query.edit_message_text(text="𝖡𝗈𝗍 : Backround Remover Bot\n"
-                                      "𝖣𝖾𝗏𝖾𝗅𝗈𝗉𝖾𝗋 : GitHub (https://github.com/Geektyper) | Telegram (https://telegram.me/NotRealGeek)\n"
-                                      "𝖲𝗈𝗎𝗋𝖼𝖾 : Click here (https://github.com/Geektyper/background)\n"
-                                      "𝖫𝖺𝗇𝗀𝗎𝖺𝗀𝖾 : Python 3 (https://python.org/)\n"
+                                      "𝖣𝖾𝗏𝖾𝗅𝗈𝗉𝖾𝗋 : [GitHub] (https://github.com/Geektyper) | [Telegram] (https://telegram.me/NotRealGeek)\n"
+                                      "𝖲𝗈𝗎𝗋𝖼𝖾 : [Click here] (https://github.com/Geektyper/background)\n"
+                                      "𝖫𝖺𝗇𝗀𝗎𝖺𝗀𝖾 : [Python 3] (https://python.org/)\n"
                                       "𝖫𝗂𝖻 : Pyrogram (https://pyrogram.org/)")
     elif query.data == 'close':
         query.edit_message_text(text="𝖢𝗅𝗈𝗌𝖾𝖽")
+    elif query.data == 'help':
+        buttons = [
+            [
+                InlineKeyboardButton("Close", callback_data='close_help')
+            ]
+        ]
+        keyboard = InlineKeyboardMarkup(buttons)
+        query.edit_message_text(text="Just send me a photo\n"
+                                      "- I will download it\n"
+                                      "- I will send the photo without background\n"
+                                      "Made by [Geektyper](t.me/notrealgeek).",
+                                reply_markup=keyboard)
 
 def main() -> None:
     updater = Updater(token=API_TOKEN, use_context=True)
