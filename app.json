@@ -21,5 +21,16 @@
         "version": "13"
       }
     }
-  ]
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "heroku-community/docker"
+    }
+  ],
+  "run": {
+    "worker": "python3 main.py"
+  }
 }
