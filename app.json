@@ -21,10 +21,5 @@
         "version": "13"
       }
     }
-  ],
-  "buildpacks": [
-    {
-      "url": "heroku/python"
-    }
   ]
 }
