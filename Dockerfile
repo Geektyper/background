@@ -4,8 +4,8 @@ FROM python:3.9-slim
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    TOKEN="your_bot_token_here" \
-    RMBG="your_remove_bg_api_key_here"
+    TOKEN="" \
+    RMBG=""
 
 # Set the working directory in the container
 WORKDIR /app
