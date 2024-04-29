@@ -24,5 +24,22 @@
          "required": true,
          "value": "your_bot_token_here"
       }
-   }
+   },
+   "buildpacks": [
+      {
+         "url": "https://github.com/HellBoy-OP/heroku-buildpack-ffmpeg-latest"
+      },
+      {
+         "url": "https://github.com/heroku/heroku-buildpack-google-chrome"
+      },
+      {
+         "url": "https://github.com/heroku/heroku-buildpack-chromedriver"
+      },
+      {
+         "url": "https://github.com/heroku/heroku-buildpack-apt.git"
+      },
+      {
+         "url": "heroku/python"
+      }
+   ]
 }
