@@ -23,6 +23,9 @@ def start(update: Update, context: CallbackContext) -> None:
 
     keyboard = InlineKeyboardMarkup(buttons)
 
+    help_button = InlineKeyboardButton("𝖧𝖾𝗅𝗉", callback_data='help')
+    keyboard.row(help_button)  # Add the help button in a new row
+
     update.message.reply_text(message_text, reply_markup=keyboard)
 
 def remove_background(update: Update, context: CallbackContext) -> None:
@@ -57,6 +60,18 @@ def button_click(update: Update, context: CallbackContext) -> None:
                                       "𝖫𝗂𝖻 : Pyrogram (https://pyrogram.org/)")
     elif query.data == 'close':
         query.edit_message_text(text="𝖢𝗅𝗈𝗌𝖾𝖽")
+    elif query.data == 'help':
+        buttons = [
+            [
+                InlineKeyboardButton("Close", callback_data='close_help')
+            ]
+        ]
+        keyboard = InlineKeyboardMarkup(buttons)
+        query.edit_message_text(text="Just send me a photo\n"
+                                      "- I will download it\n"
+                                      "- I will send the photo without background\n"
+                                      "Made by [Geektyper](t.me/notrealgeek).",
+                                reply_markup=keyboard)
 
 def main() -> None:
     updater = Updater(token=API_TOKEN, use_context=True)
@@ -71,4 +86,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-
