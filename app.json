@@ -1,0 +1,24 @@
+{
+  "name": "Remove BG",
+  "description": "Background Remover Bot",
+  "repository": "https://github.com/Geektyper/background/tree/main",
+  "keywords": ["telegram", "bot"],
+  "env": {
+    "TOKEN": {
+      "description": "Your Telegram bot API token",
+      "required": true
+    },
+    "RMBG": {
+      "description": "Your Remove.bg API key",
+      "required": true
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
