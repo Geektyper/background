@@ -24,7 +24,7 @@ def start(update: Update, context: CallbackContext) -> None:
     keyboard = InlineKeyboardMarkup(buttons)
 
     help_button = InlineKeyboardButton("𝖧𝖾𝗅𝗉", callback_data='help')
-    keyboard.row(help_button)  # Add the help button in a new row
+    keyboard.row(help_button)
 
     update.message.reply_text(message_text, reply_markup=keyboard)
 
