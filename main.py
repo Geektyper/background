@@ -16,7 +16,7 @@ Geek = Client(
 START_TEXT = """
 Hello {}, I am a image background remover bot. Send me a photo I will send the photo without background.
 
-Made by [BioHazard Bots](t.me/BioHazard_Bots).
+Made by [Bot support](t.me/BotsupportXD).
 """
 HELP_TEXT = """
 - Just send me a photo
