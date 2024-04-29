@@ -1,33 +1,29 @@
 {
-  "name": "Remove BG",
-  "description": "Background Remover Bot",
-  "repository": "https://github.com/Geektyper/background/tree/main",
-  "keywords": ["telegram", "bot"],
-  "env": {
-    "TOKEN": {
-      "description": "Your Telegram bot API token",
-      "required": true
-    },
-    "RMBG": {
-      "description": "Your Remove.bg API key",
-      "required": true
-    }
-  },
-  "stack": "heroku-22",
-  "addons": [
-    {
-      "plan": "heroku-postgresql",
-      "options": {
-        "version": "13"
+   "name": "rm bg",
+   "description": "Background Remover Bot.",
+   "logo": "https://telegra.ph/file/4d370b478d90d98709398.jpg",
+   "keywords": ["telegram", "group"],
+   "repository": "https://github.com/Geektyper/background/tree/main",
+   "stack": "heroku-22",
+   "addons": [
+      {
+         "plan": "heroku-postgresql",
+         "options": {
+            "version": "13"
+         }
       }
-    }
-  ],
-  "buildpacks": [
-    {
-      "url": "heroku-community/docker"
-    }
-  ],
-  "run": {
-    "worker": "python3 main.py"
-  }
+   ],
+   "env": {
+      "RMBG": {
+         "description": "Obtain this value from https://www.remove.bg/dashboard#api-key.",
+         "required": true,
+         "value": ""
+
+
+      "TOKEN": {
+         "description": "Bot token obtained from @BotFather on Telegram.",
+         "required": true,
+         "value": ""
+      }
+   }
 }
