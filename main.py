@@ -23,7 +23,7 @@ HELP_TEXT = """
 - I will download it
 - I will send the photo without background
 
-Made by [BioHazard Bots](t.me/BioHazard_Bots).
+Made by [Bot support](t.me/BotsupportXD).
 """
 ABOUT_TEXT = """
 - **Bot :** `Backround Remover Bot`
