@@ -24,9 +24,6 @@
   ],
   "buildpacks": [
     {
-      "url": "heroku/python"
-    },
-    {
       "url": "heroku-community/docker"
     }
   ],
