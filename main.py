@@ -1,66 +1,170 @@
-import io
 import os
 import requests
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-API_TOKEN = os.getenv("TOKEN")
-REMOVE_BG_API_KEY = os.getenv("RMBG")
+API = os.environ["RMBG"]
+IMG_PATH = "./DOWNLOADS"
 
-app = Client("my_bot", bot_token=API_TOKEN)
+Geek = Client(
+    "Remove Background Bot",
+    bot_token=os.environ["TOKEN"],
+    api_id=int(os.environ["API_ID"]),
+    api_hash=os.environ["API_HASH"],
+)
 
-@app.on_message(filters.command("start"))
-def start(client, message):
-    user_name = message.from_user.first_name
-    message_text = (
-        f"𝖧ey {user_name}, 𝖨 𝖠𝗆 𝖠 𝖬𝖾𝖽𝗂𝖺 𝖡𝖺𝖼𝗄𝗀𝗋𝗈𝗎𝗇𝖽 𝖱𝖾𝗆𝗈𝗏𝖾𝗋 𝖡𝗈𝗍!\n\n"
-        "𝖲𝖾𝗇𝖽 𝖬𝖾 𝖠 𝖯𝗁𝗈𝗍𝗈 𝖨 𝖶𝗂𝗅𝗅 𝖲𝖾𝗇𝖽 𝖳𝗁𝖾 𝖯𝗁𝗈𝗍𝗈 𝖶𝗂𝗍𝗁𝗈𝗎𝗍 𝖡𝖺𝖼𝗄𝗀𝗋𝗈𝗎𝗇𝖽!"
+START_TEXT = """
+Hello {}, I am a image background remover bot. Send me a photo I will send the photo without background.
+
+Made by [BioHazard Bots](t.me/BioHazard_Bots).
+"""
+HELP_TEXT = """
+- Just send me a photo
+- I will download it
+- I will send the photo without background
+
+Made by [BioHazard Bots](t.me/BioHazard_Bots).
+"""
+ABOUT_TEXT = """
+- **Bot :** `Backround Remover Bot`
+- **Creator :** [Divyash](https://t.me/Notrealgeek)
+- **Channel :** [Bot Updates](https://t.me/Botupdatexd)
+- **Support :** [Bot support](https://t.me/BotsupportXD)
+"""
+START_BUTTONS = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton('Updates', url='https://telegram.me/Botupdatexd'),
+        InlineKeyboardButton('Support', url='https://telegram.me/Botupdatexd')
+    ], [
+        InlineKeyboardButton('Help', callback_data='help'),
+        InlineKeyboardButton('About', callback_data='about'),
+        InlineKeyboardButton('Close', callback_data='close')
+    ]]
+)
+HELP_BUTTONS = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton('Home', callback_data='home'),
+        InlineKeyboardButton('About', callback_data='about'),
+        InlineKeyboardButton('Close', callback_data='close')
+    ]]
+)
+ABOUT_BUTTONS = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton('Home', callback_data='home'),
+        InlineKeyboardButton('Help', callback_data='help'),
+        InlineKeyboardButton('Close', callback_data='close')
+    ]]
+)
+ERROR_BUTTONS = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton('Help', callback_data='help'),
+        InlineKeyboardButton('Close', callback_data='close')
+    ]]
+)
+BUTTONS = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton('Join Updates Channel', url='https://t.me/Botupdatexd')
+    ]]
+)
+
+
+@Geek.on_callback_query()
+async def cb_data(bot, update):
+    if update.data == "home":
+        await update.message.edit_text(
+            text=START_TEXT.format(update.from_user.mention),
+            reply_markup=START_BUTTONS,
+            disable_web_page_preview=True
+        )
+    elif update.data == "help":
+        await update.message.edit_text(
+            text=HELP_TEXT,
+            reply_markup=HELP_BUTTONS,
+            disable_web_page_preview=True
+        )
+    elif update.data == "about":
+        await update.message.edit_text(
+            text=ABOUT_TEXT,
+            reply_markup=ABOUT_BUTTONS,
+            disable_web_page_preview=True
+        )
+    else:
+        await update.message.delete()
+
+
+@Geek.on_message(filters.private & filters.command(["start"]))
+async def start(bot, update):
+    await update.reply_text(
+        text=START_TEXT.format(update.from_user.mention),
+        disable_web_page_preview=True,
+        reply_markup=START_BUTTONS
     )
 
-    buttons = [
-        [
-            InlineKeyboardButton("𝖠𝖻𝗈𝗎𝗍", callback_data='about'),
-            InlineKeyboardButton("𝖢𝗅𝗈𝗌𝖾", callback_data='close')
-        ],
-    ]
 
-    keyboard = InlineKeyboardMarkup(buttons)
-
-    message.reply_text(message_text, reply_markup=keyboard)
-
-@app.on_message(filters.photo)
-def remove_background(client, message):
-    chat_id = message.chat.id
-
-    if message.photo:
-        file_id = message.photo[-1].file_id
-        file = client.download_media(file_id)
-        file_io = io.BytesIO(file)
-
-        response = requests.post(
-            'https://api.remove.bg/v1.0/removebg',
-            files={'image_file': ('input.png', file_io, 'image/png')},
-            data={'size': 'auto'},
-            headers={'X-Api-Key': REMOVE_BG_API_KEY},
+@Geek.on_message(filters.private & (filters.photo | filters.document))
+async def remove_background(bot, update):
+    if not API:
+        await update.reply_text(
+            text="Error :- Remove BG Api is error",
+            quote=True,
+            disable_web_page_preview=True,
+            reply_markup=ERROR_BUTTONS
+        )
+        return
+    await update.reply_chat_action("typing")
+    message = await update.reply_text(
+        text="Analysing",
+        quote=True,
+        disable_web_page_preview=True
+    )
+    if (update and update.media and (update.photo or (update.document and "image" in update.document.mime_type))):
+        file_name = IMG_PATH + "/" + str(update.from_user.id) + "/" + "image.jpg"
+        new_file_name = IMG_PATH + "/" + str(update.from_user.id) + "/" + "no_bg.png"
+        await update.download(file_name)
+        await message.edit_text(
+            text="Photo downloaded successfully. Now removing background.",
+            disable_web_page_preview=True
+        )
+        try:
+            new_image = requests.post(
+                "https://api.remove.bg/v1.0/removebg",
+                files={"image_file": open(file_name, "rb")},
+                data={"size": "auto"},
+                headers={"X-Api-Key": API}
+            )
+            if new_image.status_code == 200:
+                with open(f"{new_file_name}", "wb") as image:
+                    image.write(new_image.content)
+            else:
+                await update.reply_text(
+                    text="API is error.",
+                    quote=True,
+                    reply_markup=ERROR_BUTTONS
+                )
+                return
+            await update.reply_chat_action("upload_photo")
+            await update.reply_document(
+                document=new_file_name,
+                quote=True
+            )
+            await message.delete()
+            try:
+                os.remove(file_name)
+            except:
+                pass
+        except Exception as error:
+            print(error)
+            await message.edit_text(
+                text="Something went wrong! May be API limits.",
+                disable_web_page_preview=True,
+                reply_markup=ERROR_BUTTONS
+            )
+    else:
+        await message.edit_text(
+            text="Media not supported",
+            disable_web_page_preview=True,
+            reply_markup=ERROR_BUTTONS
         )
 
-        if response.status_code == 200:
-            client.send_photo(chat_id=chat_id, photo=response.content)
-        else:
-            message.reply_text('Error processing image. Please try again.')
 
-@app.on_callback_query()
-def button_click(client, callback_query):
-    query = callback_query
-    query.answer()
-    if query.data == 'about':
-        query.edit_message_text(text="𝖡𝗈𝗍 : Backround Remover Bot\n"
-                                      "𝖣𝖾𝗏𝖾𝗅𝗈𝗉𝖾𝗋 : GitHub (https://github.com/Geektyper) | Telegram (https://telegram.me/NotRealGeek)\n"
-                                      "𝖲𝗈𝗎𝗋𝖼𝖾 : Click here (https://github.com/Geektyper/background)\n"
-                                      "𝖫𝖺𝗇𝗀𝗎𝖺𝗀𝖾 : Python 3 (https://python.org/)\n"
-                                      "𝖫𝗂𝖻 : Pyrogram (https://pyrogram.org/)")
-    elif query.data == 'close':
-        query.edit_message_text(text="𝖢𝗅𝗈𝗌𝖾𝖽")
-
-if __name__ == '__main__':
-    app.run()
+Geek.run()
