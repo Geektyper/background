@@ -4,9 +4,8 @@ import requests
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, CallbackQueryHandler
 
-API_TOKEN = '6373996761:AAFlK5o_UKbzQs6aLyW9QO3SXNiGG-C26NI'
-REMOVE_BG_API_KEY = 'Gq3LPeT3dHd4UcHTTUyUfW1K'
-
+API_TOKEN = os.getenv("TOKEN")
+REMOVE_BG_API_KEY = os.getenv("RMBG")
 def start(update: Update, context: CallbackContext) -> None:
     user_name = update.message.from_user.first_name
     message_text = (
