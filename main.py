@@ -17,14 +17,12 @@ def start(update: Update, context: CallbackContext) -> None:
     buttons = [
         [
             InlineKeyboardButton("𝖠𝖻𝗈𝗎𝗍", callback_data='about'),
-            InlineKeyboardButton("𝖢𝗅𝗈𝗌𝖾", callback_data='close')
+            InlineKeyboardButton("𝖧𝖾𝗅𝗉", callback_data='help')
         ],
+        [InlineKeyboardButton("𝖢𝗅𝗈𝗌𝖾", callback_data='close')],
     ]
 
     keyboard = InlineKeyboardMarkup(buttons)
-
-    help_button = InlineKeyboardButton("𝖧𝖾𝗅𝗉", callback_data='help')
-    keyboard.row(help_button)
 
     update.message.reply_text(message_text, reply_markup=keyboard)
 
@@ -62,9 +60,7 @@ def button_click(update: Update, context: CallbackContext) -> None:
         query.edit_message_text(text="𝖢𝗅𝗈𝗌𝖾𝖽")
     elif query.data == 'help':
         buttons = [
-            [
-                InlineKeyboardButton("Close", callback_data='close_help')
-            ]
+            [InlineKeyboardButton("Close", callback_data='close_help')],
         ]
         keyboard = InlineKeyboardMarkup(buttons)
         query.edit_message_text(text="Just send me a photo\n"
