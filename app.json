@@ -12,8 +12,14 @@
       "description": "Your Remove.bg API key",
       "required": true
     }
+   "stack": "heroku-22",
+   "addons": [
+      {
+         "options": {
+            "version": "13"
+         }, 
   },
-  "addons": [
+  "plan": [
     "heroku-postgresql"
   ],
   "buildpacks": [
